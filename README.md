@@ -1,3 +1,10 @@
+# Note
+PDF Downlod For folw steps...
+Fix — you need to run Chrome with remote debugging enabled.
+Open a new Command Prompt window and run:
+
+✅URL="C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --headless
+
 # 1Digit Resume
 
 1Digit Resume is a private and professional resume builder that simplifies the process of creating, updating, and sharing your resume with complete data privacy.
