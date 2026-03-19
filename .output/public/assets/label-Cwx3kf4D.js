@@ -1,0 +1,2 @@
+import{t as e}from"./jsx-runtime-C7M7YA1l.js";import{t}from"./style-BNSOdT6D.js";var n=e();function r({className:e,...r}){return(0,n.jsx)(`label`,{"data-slot":`label`,className:t(`flex select-none items-center gap-2 font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50 group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50`,e),...r})}export{r as t};
+//# sourceMappingURL=label-Cwx3kf4D.js.map

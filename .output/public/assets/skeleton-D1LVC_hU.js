@@ -1,0 +1,2 @@
+import{n as e,s as t,t as n}from"./jsx-runtime-C7M7YA1l.js";import{t as r}from"./style-BNSOdT6D.js";var i=t(e(),1),a=`(max-width: 767px)`;function o(){let[e,t]=(0,i.useState)(void 0);return(0,i.useEffect)(()=>{let e=window.matchMedia(a),n=e=>{t(e.matches)};return e.addEventListener(`change`,n),t(e.matches),()=>e.removeEventListener(`change`,n)},[]),!!e}var s=n();function c({className:e,...t}){return(0,s.jsx)(`div`,{"data-slot":`skeleton`,className:r(`animate-pulse rounded-md bg-muted`,e),...t})}export{o as n,c as t};
+//# sourceMappingURL=skeleton-D1LVC_hU.js.map

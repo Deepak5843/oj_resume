@@ -1,0 +1,2 @@
+import{t as e}from"./jsx-runtime-C7M7YA1l.js";import{t}from"./style-BNSOdT6D.js";import{m as n}from"./sidebar-e8b5e5Na.js";var r=e();function i({title:e,icon:i,className:a}){return(0,r.jsxs)(`div`,{className:t(`relative flex items-center justify-center gap-x-2.5 md:justify-start`,a),children:[(0,r.jsx)(n,{className:`absolute inset-s-0 md:hidden`}),(0,r.jsx)(i,{weight:`light`,className:`size-5`}),(0,r.jsx)(`h1`,{className:`font-medium text-xl tracking-tight`,children:e})]})}export{i as t};
+//# sourceMappingURL=header-DUwgMdjP.js.map

@@ -1,0 +1,2 @@
+import{t as e}from"./jsx-runtime-C7M7YA1l.js";import{t}from"./style-BNSOdT6D.js";import{t as n}from"./Separator-przZ0hHo.js";var r=e();function i({className:e,orientation:i=`horizontal`,...a}){return(0,r.jsx)(n,{"data-slot":`separator`,orientation:i,className:t(`shrink-0 bg-border data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch`,e),...a})}export{i as t};
+//# sourceMappingURL=separator-Cq19r9x1.js.map

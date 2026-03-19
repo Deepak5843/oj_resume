@@ -8,6 +8,7 @@ import {
 	KeyIcon,
 	ReadCvLogoIcon,
 	ShieldCheckIcon,
+	SparkleIcon,
 	UserCircleIcon,
 	WarningIcon,
 } from "@phosphor-icons/react";
@@ -42,6 +43,11 @@ const appSidebarItems = [
 		icon: <ReadCvLogoIcon />,
 		label: msg`Resumes`,
 		href: "/dashboard/resumes",
+	},
+	{
+		icon: <SparkleIcon />,
+		label: msg`Templates`,
+		href: "/templates",
 	},
 ] as const satisfies SidebarItem[];
 

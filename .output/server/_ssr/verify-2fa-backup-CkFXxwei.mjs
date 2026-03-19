@@ -1,0 +1,134 @@
+import { Nt as require_jsx_runtime } from "../_libs/@base-ui/react+[...].mjs";
+import { t as Button$1 } from "./button-C8loFr-r.mjs";
+import { f as useNavigate, m as useRouter, u as Link } from "../_libs/@tanstack/react-router+[...].mjs";
+import { n as Trans } from "../_libs/lingui__react.mjs";
+import { a as zod_default } from "../_libs/@ai-sdk/gateway+[...].mjs";
+import { t as i18n } from "../_libs/lingui__core.mjs";
+import { Rn as r, bn as o } from "../_libs/phosphor-icons__react.mjs";
+import { n as toast } from "../_libs/sonner.mjs";
+import { t as authClient } from "./client-xNbkeDAk.mjs";
+import { a as useForm, t as a } from "../_libs/@hookform/resolvers+[...].mjs";
+import { a as FormItem, i as FormField, n as FormControl, s as FormMessage, t as Form } from "./form-BEU_kK8D.mjs";
+import { r as Qt } from "../_libs/input-otp.mjs";
+import { i as InputOTPSlot, n as InputOTPGroup, r as InputOTPSeparator, t as InputOTP } from "./input-otp-BenbZUqn.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/verify-2fa-backup-CkFXxwei.js
+var import_jsx_runtime = require_jsx_runtime();
+var formSchema = zod_default.object({ code: zod_default.string().trim() });
+function RouteComponent() {
+	const router = useRouter();
+	const navigate = useNavigate();
+	const form = useForm({
+		resolver: a(formSchema),
+		defaultValues: { code: "" }
+	});
+	const onSubmit = async (data) => {
+		const toastId = toast.loading(i18n._({ id: "SXcmcA" }));
+		const formattedCode = `${data.code.slice(0, 5)}-${data.code.slice(5)}`;
+		const { error } = await authClient.twoFactor.verifyBackupCode({ code: formattedCode });
+		if (error) {
+			toast.error(error.message, { id: toastId });
+			return;
+		}
+		toast.dismiss(toastId);
+		router.invalidate();
+		navigate({
+			to: "/dashboard",
+			replace: true
+		});
+	};
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+		className: "space-y-1 text-center",
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
+			className: "font-bold text-2xl tracking-tight",
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trans, { id: "FZNDIB" })
+		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+			className: "text-muted-foreground",
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trans, { id: "8l+loI" })
+		})]
+	}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Form, {
+		...form,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
+			className: "grid gap-6",
+			onSubmit: form.handleSubmit(onSubmit),
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormField, {
+				control: form.control,
+				name: "code",
+				render: ({ field }) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(FormItem, {
+					className: "justify-self-center",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormControl, { render: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(InputOTP, {
+						maxLength: 10,
+						value: field.value,
+						pattern: Qt,
+						onChange: field.onChange,
+						onComplete: form.handleSubmit(onSubmit),
+						pasteTransformer: (pasted) => pasted.replaceAll("-", ""),
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(InputOTPGroup, { children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(InputOTPSlot, {
+									index: 0,
+									className: "size-12"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(InputOTPSlot, {
+									index: 1,
+									className: "size-12"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(InputOTPSlot, {
+									index: 2,
+									className: "size-12"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(InputOTPSlot, {
+									index: 3,
+									className: "size-12"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(InputOTPSlot, {
+									index: 4,
+									className: "size-12"
+								})
+							] }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(InputOTPSeparator, {}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(InputOTPGroup, { children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(InputOTPSlot, {
+									index: 5,
+									className: "size-12"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(InputOTPSlot, {
+									index: 6,
+									className: "size-12"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(InputOTPSlot, {
+									index: 7,
+									className: "size-12"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(InputOTPSlot, {
+									index: 8,
+									className: "size-12"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(InputOTPSlot, {
+									index: 9,
+									className: "size-12"
+								})
+							] })
+						]
+					}) }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FormMessage, {})]
+				})
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "flex gap-x-2",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button$1, {
+					variant: "outline",
+					className: "flex-1",
+					nativeButton: false,
+					render: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Link, {
+						to: "/auth/verify-2fa",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(r, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trans, { id: "sr0UJD" })]
+					})
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button$1, {
+					type: "submit",
+					className: "flex-1",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(o, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trans, { id: "uSMfoN" })]
+				})]
+			})]
+		})
+	})] });
+}
+//#endregion
+export { RouteComponent as component };

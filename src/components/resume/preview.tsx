@@ -128,13 +128,23 @@ type PageContainerProps = {
 function PageContainer({ pageIndex, pageLayout, pageClassName, showPageNumbers = false }: PageContainerProps) {
 	const pageRef = useRef<HTMLDivElement>(null);
 	const [pageHeight, setPageHeight] = useState<number>(0);
+	const [templateError, setTemplateError] = useState<string | null>(null);
 
 	const metadata = useResumeStore((state) => state.resume.data.metadata);
 
 	const pageNumber = useMemo(() => pageIndex + 1, [pageIndex]);
 	const maxPageHeight = useMemo(() => pageDimensionsAsPixels[metadata.page.format].height, [metadata.page.format]);
 	const totalNumberOfPages = useMemo(() => metadata.layout.pages.length, [metadata.layout.pages]);
-	const TemplateComponent = useMemo(() => getTemplateComponent(metadata.template), [metadata.template]);
+	
+	const TemplateComponent = useMemo(() => {
+		try {
+			return getTemplateComponent(metadata.template);
+		} catch (error) {
+			console.error("Error loading template:", error);
+			setTemplateError(`Failed to load template: ${metadata.template}`);
+			return null;
+		}
+	}, [metadata.template]);
 
 	useResizeObserver({
 		ref: pageRef as RefObject<HTMLDivElement>,
@@ -157,7 +167,29 @@ function PageContainer({ pageIndex, pageLayout, pageClassName, showPageNumbers =
 			)}
 
 			<div ref={pageRef} className={cn(`page page-${pageIndex}`, styles.page, pageClassName)}>
-				<TemplateComponent pageIndex={pageIndex} pageLayout={pageLayout} />
+				{templateError ? (
+					<Alert className="m-4">
+						<WarningIcon color="currentColor" />
+						<AlertTitle>
+							<Trans>Template Error</Trans>
+						</AlertTitle>
+						<AlertDescription>
+							{templateError}
+						</AlertDescription>
+					</Alert>
+				) : TemplateComponent ? (
+					<TemplateComponent pageIndex={pageIndex} pageLayout={pageLayout} />
+				) : (
+					<Alert className="m-4">
+						<WarningIcon color="currentColor" />
+						<AlertTitle>
+							<Trans>Template Not Found</Trans>
+						</AlertTitle>
+						<AlertDescription>
+							<Trans>The requested template could not be loaded.</Trans>
+						</AlertDescription>
+					</Alert>
+				)}
 			</div>
 
 			{metadata.page.format !== "free-form" && pageHeight > maxPageHeight && (

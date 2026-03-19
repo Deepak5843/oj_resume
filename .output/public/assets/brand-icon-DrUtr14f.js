@@ -1,0 +1,2 @@
+import{t as e}from"./jsx-runtime-C7M7YA1l.js";import{t}from"./style-BNSOdT6D.js";var n=e();function r({variant:e=`logo`,className:r,...i}){return(0,n.jsxs)(n.Fragment,{children:[(0,n.jsx)(`img`,{src:`/${e}/dark.svg`,alt:`Reactive Resume`,className:t(`hidden size-12 dark:block`,r),...i}),(0,n.jsx)(`img`,{src:`/${e}/light.svg`,alt:`Reactive Resume`,className:t(`block size-12 dark:hidden`,r),...i})]})}export{r as t};
+//# sourceMappingURL=brand-icon-DrUtr14f.js.map

@@ -1,0 +1,53 @@
+//#region node_modules/.nitro/vite/services/ssr/assets/__tanstack-start-server-fn-resolver-BcLDBzBo.js
+var manifest = {
+	"71df1c81de1627f92aad64454efb0cbee53b33c45818d2ce8fd4e7ad46e6b1c9": {
+		functionName: "setThemeServerFn_createServerFn_handler",
+		importer: () => import("./_ssr/theme-BuFXNhTf.mjs")
+	},
+	"14080f89ae495ac5a5d573b2a10df3d783b0f8d025c02f37771c42e9f7e4faa7": {
+		functionName: "setLocaleServerFn_createServerFn_handler",
+		importer: () => import("./_ssr/locale-BSNcfNa8.mjs")
+	},
+	"4cf8a2dd9971804ed852b0e8800e0801d53148f92b5cde984ecc2402a068ba3c": {
+		functionName: "setBuilderLayoutServerFn_createServerFn_handler",
+		importer: () => import("./_ssr/route-ShUQZX3u.mjs")
+	},
+	"87b9e274e18165348265760f0c6066b95da714ecd2e1a1b30427498be3225e01": {
+		functionName: "getBuilderLayoutServerFn_createServerFn_handler",
+		importer: () => import("./_ssr/route-ShUQZX3u.mjs")
+	},
+	"756c704a65dc0d34a819db91bfae51022d981bb53c6ad8906dba70c85f0a9c84": {
+		functionName: "setViewServerFn_createServerFn_handler",
+		importer: () => import("./_ssr/resumes-BZk2JY79.mjs")
+	},
+	"4b20519717d2ba2f6679a73ed58f69487c7fe8e6cc9cbbf048dd213fa980a675": {
+		functionName: "getViewServerFn_createServerFn_handler",
+		importer: () => import("./_ssr/resumes-BZk2JY79.mjs")
+	},
+	"513aca5e0aecd5ef992128f5d4c9f895e12f04155f3f4abd4b56c78ca99ffe64": {
+		functionName: "getDashboardSidebarServerFn_createServerFn_handler",
+		importer: () => import("./_ssr/functions-mN8cbK-8.mjs")
+	},
+	"0a9b531e4949df5a7e5b01de45fa3f757b2e20ce8fda163d34303c4021aaf35e": {
+		functionName: "setDashboardSidebarServerFn_createServerFn_handler",
+		importer: () => import("./_ssr/functions-mN8cbK-8.mjs")
+	}
+};
+async function getServerFnById(id) {
+	const serverFnInfo = manifest[id];
+	if (!serverFnInfo) throw new Error("Server function info not found for " + id);
+	const fnModule = await serverFnInfo.importer();
+	if (!fnModule) {
+		console.info("serverFnInfo", serverFnInfo);
+		throw new Error("Server function module not resolved for " + id);
+	}
+	const action = fnModule[serverFnInfo.functionName];
+	if (!action) {
+		console.info("serverFnInfo", serverFnInfo);
+		console.info("fnModule", fnModule);
+		throw new Error(`Server function module export not resolved for serverFn ID: ${id}`);
+	}
+	return action;
+}
+//#endregion
+export { getServerFnById as t };

@@ -1,0 +1,2 @@
+var e=e=>{let t=`input`in e?e.input:`input`,n=`output`in e?e.output:`output`,r=`schema`in e?e.schema._input:e._input,i=`schema`in e?e.schema._output:e._output;return{types:{input:t===`output`?i:r,output:n===`input`?r:i},parse:t=>`schema`in e?e.schema.parse(t):e.parse(t)}};export{e as t};
+//# sourceMappingURL=esm-FzCbTROf.js.map

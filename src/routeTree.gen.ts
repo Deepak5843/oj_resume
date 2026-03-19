@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from "./routes/__root";
+import { Route as TemplatesRouteImport } from "./routes/templates";
 import { Route as SchemaDotjsonRouteImport } from "./routes/schema[.]json";
 import { Route as DashboardRouteRouteImport } from "./routes/dashboard/route";
 import { Route as AuthRouteRouteImport } from "./routes/auth/route";
@@ -17,6 +18,7 @@ import { Route as McpIndexRouteImport } from "./routes/mcp/index";
 import { Route as DashboardIndexRouteImport } from "./routes/dashboard/index";
 import { Route as AuthIndexRouteImport } from "./routes/auth/index";
 import { Route as HomeIndexRouteImport } from "./routes/_home/index";
+import { Route as TemplatesCreateRouteImport } from "./routes/templates/create";
 import { Route as PrinterResumeIdRouteImport } from "./routes/printer/$resumeId";
 import { Route as AuthVerify2faBackupRouteImport } from "./routes/auth/verify-2fa-backup";
 import { Route as AuthVerify2faRouteImport } from "./routes/auth/verify-2fa";
@@ -28,9 +30,11 @@ import { Route as AuthForgotPasswordRouteImport } from "./routes/auth/forgot-pas
 import { Route as ApiHealthRouteImport } from "./routes/api/health";
 import { Route as UsernameSlugRouteImport } from "./routes/$username/$slug";
 import { Route as BuilderResumeIdRouteRouteImport } from "./routes/builder/$resumeId/route";
+import { Route as TemplatesCreateIndexRouteImport } from "./routes/templates/create/index";
 import { Route as DashboardResumesIndexRouteImport } from "./routes/dashboard/resumes/index";
 import { Route as BuilderResumeIdIndexRouteImport } from "./routes/builder/$resumeId/index";
 import { Route as UploadsUserIdSplatRouteImport } from "./routes/uploads/$userId.$";
+import { Route as TemplatesCreateBuilderRouteImport } from "./routes/templates/create/builder";
 import { Route as DashboardSettingsProfileRouteImport } from "./routes/dashboard/settings/profile";
 import { Route as DashboardSettingsPreferencesRouteImport } from "./routes/dashboard/settings/preferences";
 import { Route as DashboardSettingsDangerZoneRouteImport } from "./routes/dashboard/settings/danger-zone";
@@ -41,6 +45,11 @@ import { Route as ApiOpenapiSplatRouteImport } from "./routes/api/openapi.$";
 import { Route as ApiAuthSplatRouteImport } from "./routes/api/auth.$";
 import { Route as DashboardSettingsAuthenticationIndexRouteImport } from "./routes/dashboard/settings/authentication/index";
 
+const TemplatesRoute = TemplatesRouteImport.update({
+  id: "/templates",
+  path: "/templates",
+  getParentRoute: () => rootRouteImport,
+} as any);
 const SchemaDotjsonRoute = SchemaDotjsonRouteImport.update({
   id: "/schema.json",
   path: "/schema.json",
@@ -79,6 +88,11 @@ const HomeIndexRoute = HomeIndexRouteImport.update({
   id: "/",
   path: "/",
   getParentRoute: () => HomeRouteRoute,
+} as any);
+const TemplatesCreateRoute = TemplatesCreateRouteImport.update({
+  id: "/create",
+  path: "/create",
+  getParentRoute: () => TemplatesRoute,
 } as any);
 const PrinterResumeIdRoute = PrinterResumeIdRouteImport.update({
   id: "/printer/$resumeId",
@@ -135,6 +149,11 @@ const BuilderResumeIdRouteRoute = BuilderResumeIdRouteRouteImport.update({
   path: "/builder/$resumeId",
   getParentRoute: () => rootRouteImport,
 } as any);
+const TemplatesCreateIndexRoute = TemplatesCreateIndexRouteImport.update({
+  id: "/",
+  path: "/",
+  getParentRoute: () => TemplatesCreateRoute,
+} as any);
 const DashboardResumesIndexRoute = DashboardResumesIndexRouteImport.update({
   id: "/resumes/",
   path: "/resumes/",
@@ -149,6 +168,11 @@ const UploadsUserIdSplatRoute = UploadsUserIdSplatRouteImport.update({
   id: "/uploads/$userId/$",
   path: "/uploads/$userId/$",
   getParentRoute: () => rootRouteImport,
+} as any);
+const TemplatesCreateBuilderRoute = TemplatesCreateBuilderRouteImport.update({
+  id: "/builder",
+  path: "/builder",
+  getParentRoute: () => TemplatesCreateRoute,
 } as any);
 const DashboardSettingsProfileRoute =
   DashboardSettingsProfileRouteImport.update({
@@ -206,6 +230,7 @@ export interface FileRoutesByFullPath {
   "/auth": typeof AuthRouteRouteWithChildren;
   "/dashboard": typeof DashboardRouteRouteWithChildren;
   "/schema.json": typeof SchemaDotjsonRoute;
+  "/templates": typeof TemplatesRouteWithChildren;
   "/builder/$resumeId": typeof BuilderResumeIdRouteRouteWithChildren;
   "/$username/$slug": typeof UsernameSlugRoute;
   "/api/health": typeof ApiHealthRoute;
@@ -217,6 +242,7 @@ export interface FileRoutesByFullPath {
   "/auth/verify-2fa": typeof AuthVerify2faRoute;
   "/auth/verify-2fa-backup": typeof AuthVerify2faBackupRoute;
   "/printer/$resumeId": typeof PrinterResumeIdRoute;
+  "/templates/create": typeof TemplatesCreateRouteWithChildren;
   "/auth/": typeof AuthIndexRoute;
   "/dashboard/": typeof DashboardIndexRoute;
   "/mcp/": typeof McpIndexRoute;
@@ -228,13 +254,16 @@ export interface FileRoutesByFullPath {
   "/dashboard/settings/danger-zone": typeof DashboardSettingsDangerZoneRoute;
   "/dashboard/settings/preferences": typeof DashboardSettingsPreferencesRoute;
   "/dashboard/settings/profile": typeof DashboardSettingsProfileRoute;
+  "/templates/create/builder": typeof TemplatesCreateBuilderRoute;
   "/uploads/$userId/$": typeof UploadsUserIdSplatRoute;
   "/builder/$resumeId/": typeof BuilderResumeIdIndexRoute;
   "/dashboard/resumes/": typeof DashboardResumesIndexRoute;
+  "/templates/create/": typeof TemplatesCreateIndexRoute;
   "/dashboard/settings/authentication/": typeof DashboardSettingsAuthenticationIndexRoute;
 }
 export interface FileRoutesByTo {
   "/schema.json": typeof SchemaDotjsonRoute;
+  "/templates": typeof TemplatesRouteWithChildren;
   "/$username/$slug": typeof UsernameSlugRoute;
   "/api/health": typeof ApiHealthRoute;
   "/auth/forgot-password": typeof AuthForgotPasswordRoute;
@@ -257,9 +286,11 @@ export interface FileRoutesByTo {
   "/dashboard/settings/danger-zone": typeof DashboardSettingsDangerZoneRoute;
   "/dashboard/settings/preferences": typeof DashboardSettingsPreferencesRoute;
   "/dashboard/settings/profile": typeof DashboardSettingsProfileRoute;
+  "/templates/create/builder": typeof TemplatesCreateBuilderRoute;
   "/uploads/$userId/$": typeof UploadsUserIdSplatRoute;
   "/builder/$resumeId": typeof BuilderResumeIdIndexRoute;
   "/dashboard/resumes": typeof DashboardResumesIndexRoute;
+  "/templates/create": typeof TemplatesCreateIndexRoute;
   "/dashboard/settings/authentication": typeof DashboardSettingsAuthenticationIndexRoute;
 }
 export interface FileRoutesById {
@@ -268,6 +299,7 @@ export interface FileRoutesById {
   "/auth": typeof AuthRouteRouteWithChildren;
   "/dashboard": typeof DashboardRouteRouteWithChildren;
   "/schema.json": typeof SchemaDotjsonRoute;
+  "/templates": typeof TemplatesRouteWithChildren;
   "/builder/$resumeId": typeof BuilderResumeIdRouteRouteWithChildren;
   "/$username/$slug": typeof UsernameSlugRoute;
   "/api/health": typeof ApiHealthRoute;
@@ -279,6 +311,7 @@ export interface FileRoutesById {
   "/auth/verify-2fa": typeof AuthVerify2faRoute;
   "/auth/verify-2fa-backup": typeof AuthVerify2faBackupRoute;
   "/printer/$resumeId": typeof PrinterResumeIdRoute;
+  "/templates/create": typeof TemplatesCreateRouteWithChildren;
   "/_home/": typeof HomeIndexRoute;
   "/auth/": typeof AuthIndexRoute;
   "/dashboard/": typeof DashboardIndexRoute;
@@ -291,9 +324,11 @@ export interface FileRoutesById {
   "/dashboard/settings/danger-zone": typeof DashboardSettingsDangerZoneRoute;
   "/dashboard/settings/preferences": typeof DashboardSettingsPreferencesRoute;
   "/dashboard/settings/profile": typeof DashboardSettingsProfileRoute;
+  "/templates/create/builder": typeof TemplatesCreateBuilderRoute;
   "/uploads/$userId/$": typeof UploadsUserIdSplatRoute;
   "/builder/$resumeId/": typeof BuilderResumeIdIndexRoute;
   "/dashboard/resumes/": typeof DashboardResumesIndexRoute;
+  "/templates/create/": typeof TemplatesCreateIndexRoute;
   "/dashboard/settings/authentication/": typeof DashboardSettingsAuthenticationIndexRoute;
 }
 export interface FileRouteTypes {
@@ -303,6 +338,7 @@ export interface FileRouteTypes {
     | "/auth"
     | "/dashboard"
     | "/schema.json"
+    | "/templates"
     | "/builder/$resumeId"
     | "/$username/$slug"
     | "/api/health"
@@ -314,6 +350,7 @@ export interface FileRouteTypes {
     | "/auth/verify-2fa"
     | "/auth/verify-2fa-backup"
     | "/printer/$resumeId"
+    | "/templates/create"
     | "/auth/"
     | "/dashboard/"
     | "/mcp/"
@@ -325,13 +362,16 @@ export interface FileRouteTypes {
     | "/dashboard/settings/danger-zone"
     | "/dashboard/settings/preferences"
     | "/dashboard/settings/profile"
+    | "/templates/create/builder"
     | "/uploads/$userId/$"
     | "/builder/$resumeId/"
     | "/dashboard/resumes/"
+    | "/templates/create/"
     | "/dashboard/settings/authentication/";
   fileRoutesByTo: FileRoutesByTo;
   to:
     | "/schema.json"
+    | "/templates"
     | "/$username/$slug"
     | "/api/health"
     | "/auth/forgot-password"
@@ -354,9 +394,11 @@ export interface FileRouteTypes {
     | "/dashboard/settings/danger-zone"
     | "/dashboard/settings/preferences"
     | "/dashboard/settings/profile"
+    | "/templates/create/builder"
     | "/uploads/$userId/$"
     | "/builder/$resumeId"
     | "/dashboard/resumes"
+    | "/templates/create"
     | "/dashboard/settings/authentication";
   id:
     | "__root__"
@@ -364,6 +406,7 @@ export interface FileRouteTypes {
     | "/auth"
     | "/dashboard"
     | "/schema.json"
+    | "/templates"
     | "/builder/$resumeId"
     | "/$username/$slug"
     | "/api/health"
@@ -375,6 +418,7 @@ export interface FileRouteTypes {
     | "/auth/verify-2fa"
     | "/auth/verify-2fa-backup"
     | "/printer/$resumeId"
+    | "/templates/create"
     | "/_home/"
     | "/auth/"
     | "/dashboard/"
@@ -387,9 +431,11 @@ export interface FileRouteTypes {
     | "/dashboard/settings/danger-zone"
     | "/dashboard/settings/preferences"
     | "/dashboard/settings/profile"
+    | "/templates/create/builder"
     | "/uploads/$userId/$"
     | "/builder/$resumeId/"
     | "/dashboard/resumes/"
+    | "/templates/create/"
     | "/dashboard/settings/authentication/";
   fileRoutesById: FileRoutesById;
 }
@@ -398,6 +444,7 @@ export interface RootRouteChildren {
   AuthRouteRoute: typeof AuthRouteRouteWithChildren;
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren;
   SchemaDotjsonRoute: typeof SchemaDotjsonRoute;
+  TemplatesRoute: typeof TemplatesRouteWithChildren;
   BuilderResumeIdRouteRoute: typeof BuilderResumeIdRouteRouteWithChildren;
   UsernameSlugRoute: typeof UsernameSlugRoute;
   ApiHealthRoute: typeof ApiHealthRoute;
@@ -411,6 +458,13 @@ export interface RootRouteChildren {
 
 declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
+    "/templates": {
+      id: "/templates";
+      path: "/templates";
+      fullPath: "/templates";
+      preLoaderRoute: typeof TemplatesRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     "/schema.json": {
       id: "/schema.json";
       path: "/schema.json";
@@ -466,6 +520,13 @@ declare module "@tanstack/react-router" {
       fullPath: "/";
       preLoaderRoute: typeof HomeIndexRouteImport;
       parentRoute: typeof HomeRouteRoute;
+    };
+    "/templates/create": {
+      id: "/templates/create";
+      path: "/create";
+      fullPath: "/templates/create";
+      preLoaderRoute: typeof TemplatesCreateRouteImport;
+      parentRoute: typeof TemplatesRoute;
     };
     "/printer/$resumeId": {
       id: "/printer/$resumeId";
@@ -544,6 +605,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof BuilderResumeIdRouteRouteImport;
       parentRoute: typeof rootRouteImport;
     };
+    "/templates/create/": {
+      id: "/templates/create/";
+      path: "/";
+      fullPath: "/templates/create/";
+      preLoaderRoute: typeof TemplatesCreateIndexRouteImport;
+      parentRoute: typeof TemplatesCreateRoute;
+    };
     "/dashboard/resumes/": {
       id: "/dashboard/resumes/";
       path: "/resumes";
@@ -564,6 +632,13 @@ declare module "@tanstack/react-router" {
       fullPath: "/uploads/$userId/$";
       preLoaderRoute: typeof UploadsUserIdSplatRouteImport;
       parentRoute: typeof rootRouteImport;
+    };
+    "/templates/create/builder": {
+      id: "/templates/create/builder";
+      path: "/builder";
+      fullPath: "/templates/create/builder";
+      preLoaderRoute: typeof TemplatesCreateBuilderRouteImport;
+      parentRoute: typeof TemplatesCreateRoute;
     };
     "/dashboard/settings/profile": {
       id: "/dashboard/settings/profile";
@@ -696,6 +771,32 @@ const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
   DashboardRouteRouteChildren,
 );
 
+interface TemplatesCreateRouteChildren {
+  TemplatesCreateBuilderRoute: typeof TemplatesCreateBuilderRoute;
+  TemplatesCreateIndexRoute: typeof TemplatesCreateIndexRoute;
+}
+
+const TemplatesCreateRouteChildren: TemplatesCreateRouteChildren = {
+  TemplatesCreateBuilderRoute: TemplatesCreateBuilderRoute,
+  TemplatesCreateIndexRoute: TemplatesCreateIndexRoute,
+};
+
+const TemplatesCreateRouteWithChildren = TemplatesCreateRoute._addFileChildren(
+  TemplatesCreateRouteChildren,
+);
+
+interface TemplatesRouteChildren {
+  TemplatesCreateRoute: typeof TemplatesCreateRouteWithChildren;
+}
+
+const TemplatesRouteChildren: TemplatesRouteChildren = {
+  TemplatesCreateRoute: TemplatesCreateRouteWithChildren,
+};
+
+const TemplatesRouteWithChildren = TemplatesRoute._addFileChildren(
+  TemplatesRouteChildren,
+);
+
 interface BuilderResumeIdRouteRouteChildren {
   BuilderResumeIdIndexRoute: typeof BuilderResumeIdIndexRoute;
 }
@@ -712,6 +813,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRouteRoute: AuthRouteRouteWithChildren,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
   SchemaDotjsonRoute: SchemaDotjsonRoute,
+  TemplatesRoute: TemplatesRouteWithChildren,
   BuilderResumeIdRouteRoute: BuilderResumeIdRouteRouteWithChildren,
   UsernameSlugRoute: UsernameSlugRoute,
   ApiHealthRoute: ApiHealthRoute,

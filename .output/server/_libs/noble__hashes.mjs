@@ -1,0 +1,229 @@
+import { $ as sha256, at as checkOpts, dt as swap32IfBE, ft as u32, it as asyncLoop, lt as kdfInputToBytes, nt as ahash, ot as clean, rt as anumber, st as createView, tt as hmac, ut as rotl } from "./@better-auth/api-key+[...].mjs";
+//#region node_modules/@noble/hashes/pbkdf2.js
+/**
+* PBKDF (RFC 2898). Can be used to create a key from password and salt.
+* @module
+*/
+function pbkdf2Init(hash, _password, _salt, _opts) {
+	ahash(hash);
+	const { c, dkLen, asyncTick } = checkOpts({
+		dkLen: 32,
+		asyncTick: 10
+	}, _opts);
+	anumber(c, "c");
+	anumber(dkLen, "dkLen");
+	anumber(asyncTick, "asyncTick");
+	if (c < 1) throw new Error("iterations (c) must be >= 1");
+	const password = kdfInputToBytes(_password, "password");
+	const salt = kdfInputToBytes(_salt, "salt");
+	const DK = new Uint8Array(dkLen);
+	const PRF = hmac.create(hash, password);
+	return {
+		c,
+		dkLen,
+		asyncTick,
+		DK,
+		PRF,
+		PRFSalt: PRF._cloneInto().update(salt)
+	};
+}
+function pbkdf2Output(PRF, PRFSalt, DK, prfW, u) {
+	PRF.destroy();
+	PRFSalt.destroy();
+	if (prfW) prfW.destroy();
+	clean(u);
+	return DK;
+}
+/**
+* PBKDF2-HMAC: RFC 2898 key derivation function
+* @param hash - hash function that would be used e.g. sha256
+* @param password - password from which a derived key is generated
+* @param salt - cryptographic salt
+* @param opts - {c, dkLen} where c is work factor and dkLen is output message size
+* @example
+* const key = pbkdf2(sha256, 'password', 'salt', { dkLen: 32, c: Math.pow(2, 18) });
+*/
+function pbkdf2(hash, password, salt, opts) {
+	const { c, dkLen, DK, PRF, PRFSalt } = pbkdf2Init(hash, password, salt, opts);
+	let prfW;
+	const arr = new Uint8Array(4);
+	const view = createView(arr);
+	const u = new Uint8Array(PRF.outputLen);
+	for (let ti = 1, pos = 0; pos < dkLen; ti++, pos += PRF.outputLen) {
+		const Ti = DK.subarray(pos, pos + PRF.outputLen);
+		view.setInt32(0, ti, false);
+		(prfW = PRFSalt._cloneInto(prfW)).update(arr).digestInto(u);
+		Ti.set(u.subarray(0, Ti.length));
+		for (let ui = 1; ui < c; ui++) {
+			PRF._cloneInto(prfW).update(u).digestInto(u);
+			for (let i = 0; i < Ti.length; i++) Ti[i] ^= u[i];
+		}
+	}
+	return pbkdf2Output(PRF, PRFSalt, DK, prfW, u);
+}
+//#endregion
+//#region node_modules/@noble/hashes/scrypt.js
+/**
+* RFC 7914 Scrypt KDF. Can be used to create a key from password and salt.
+* @module
+*/
+function XorAndSalsa(prev, pi, input, ii, out, oi) {
+	let y00 = prev[pi++] ^ input[ii++], y01 = prev[pi++] ^ input[ii++];
+	let y02 = prev[pi++] ^ input[ii++], y03 = prev[pi++] ^ input[ii++];
+	let y04 = prev[pi++] ^ input[ii++], y05 = prev[pi++] ^ input[ii++];
+	let y06 = prev[pi++] ^ input[ii++], y07 = prev[pi++] ^ input[ii++];
+	let y08 = prev[pi++] ^ input[ii++], y09 = prev[pi++] ^ input[ii++];
+	let y10 = prev[pi++] ^ input[ii++], y11 = prev[pi++] ^ input[ii++];
+	let y12 = prev[pi++] ^ input[ii++], y13 = prev[pi++] ^ input[ii++];
+	let y14 = prev[pi++] ^ input[ii++], y15 = prev[pi++] ^ input[ii++];
+	let x00 = y00, x01 = y01, x02 = y02, x03 = y03, x04 = y04, x05 = y05, x06 = y06, x07 = y07, x08 = y08, x09 = y09, x10 = y10, x11 = y11, x12 = y12, x13 = y13, x14 = y14, x15 = y15;
+	for (let i = 0; i < 8; i += 2) {
+		x04 ^= rotl(x00 + x12 | 0, 7);
+		x08 ^= rotl(x04 + x00 | 0, 9);
+		x12 ^= rotl(x08 + x04 | 0, 13);
+		x00 ^= rotl(x12 + x08 | 0, 18);
+		x09 ^= rotl(x05 + x01 | 0, 7);
+		x13 ^= rotl(x09 + x05 | 0, 9);
+		x01 ^= rotl(x13 + x09 | 0, 13);
+		x05 ^= rotl(x01 + x13 | 0, 18);
+		x14 ^= rotl(x10 + x06 | 0, 7);
+		x02 ^= rotl(x14 + x10 | 0, 9);
+		x06 ^= rotl(x02 + x14 | 0, 13);
+		x10 ^= rotl(x06 + x02 | 0, 18);
+		x03 ^= rotl(x15 + x11 | 0, 7);
+		x07 ^= rotl(x03 + x15 | 0, 9);
+		x11 ^= rotl(x07 + x03 | 0, 13);
+		x15 ^= rotl(x11 + x07 | 0, 18);
+		x01 ^= rotl(x00 + x03 | 0, 7);
+		x02 ^= rotl(x01 + x00 | 0, 9);
+		x03 ^= rotl(x02 + x01 | 0, 13);
+		x00 ^= rotl(x03 + x02 | 0, 18);
+		x06 ^= rotl(x05 + x04 | 0, 7);
+		x07 ^= rotl(x06 + x05 | 0, 9);
+		x04 ^= rotl(x07 + x06 | 0, 13);
+		x05 ^= rotl(x04 + x07 | 0, 18);
+		x11 ^= rotl(x10 + x09 | 0, 7);
+		x08 ^= rotl(x11 + x10 | 0, 9);
+		x09 ^= rotl(x08 + x11 | 0, 13);
+		x10 ^= rotl(x09 + x08 | 0, 18);
+		x12 ^= rotl(x15 + x14 | 0, 7);
+		x13 ^= rotl(x12 + x15 | 0, 9);
+		x14 ^= rotl(x13 + x12 | 0, 13);
+		x15 ^= rotl(x14 + x13 | 0, 18);
+	}
+	out[oi++] = y00 + x00 | 0;
+	out[oi++] = y01 + x01 | 0;
+	out[oi++] = y02 + x02 | 0;
+	out[oi++] = y03 + x03 | 0;
+	out[oi++] = y04 + x04 | 0;
+	out[oi++] = y05 + x05 | 0;
+	out[oi++] = y06 + x06 | 0;
+	out[oi++] = y07 + x07 | 0;
+	out[oi++] = y08 + x08 | 0;
+	out[oi++] = y09 + x09 | 0;
+	out[oi++] = y10 + x10 | 0;
+	out[oi++] = y11 + x11 | 0;
+	out[oi++] = y12 + x12 | 0;
+	out[oi++] = y13 + x13 | 0;
+	out[oi++] = y14 + x14 | 0;
+	out[oi++] = y15 + x15 | 0;
+}
+function BlockMix(input, ii, out, oi, r) {
+	let head = oi + 0;
+	let tail = oi + 16 * r;
+	for (let i = 0; i < 16; i++) out[tail + i] = input[ii + (2 * r - 1) * 16 + i];
+	for (let i = 0; i < r; i++, head += 16, ii += 16) {
+		XorAndSalsa(out, tail, input, ii, out, head);
+		if (i > 0) tail += 16;
+		XorAndSalsa(out, head, input, ii += 16, out, tail);
+	}
+}
+function scryptInit(password, salt, _opts) {
+	const { N, r, p, dkLen, asyncTick, maxmem, onProgress } = checkOpts({
+		dkLen: 32,
+		asyncTick: 10,
+		maxmem: 1024 ** 3 + 1024
+	}, _opts);
+	anumber(N, "N");
+	anumber(r, "r");
+	anumber(p, "p");
+	anumber(dkLen, "dkLen");
+	anumber(asyncTick, "asyncTick");
+	anumber(maxmem, "maxmem");
+	if (onProgress !== void 0 && typeof onProgress !== "function") throw new Error("progressCb must be a function");
+	const blockSize = 128 * r;
+	const blockSize32 = blockSize / 4;
+	const pow32 = Math.pow(2, 32);
+	if (N <= 1 || (N & N - 1) !== 0 || N > pow32) throw new Error("\"N\" expected a power of 2, and 2^1 <= N <= 2^32");
+	if (p < 1 || p > (pow32 - 1) * 32 / blockSize) throw new Error("\"p\" expected integer 1..((2^32 - 1) * 32) / (128 * r)");
+	if (dkLen < 1 || dkLen > (pow32 - 1) * 32) throw new Error("\"dkLen\" expected integer 1..(2^32 - 1) * 32");
+	if (blockSize * (N + p) > maxmem) throw new Error("\"maxmem\" limit was hit, expected 128*r*(N+p) <= \"maxmem\"=" + maxmem);
+	const B = pbkdf2(sha256, password, salt, {
+		c: 1,
+		dkLen: blockSize * p
+	});
+	const B32 = u32(B);
+	const V = u32(new Uint8Array(blockSize * N));
+	const tmp = u32(new Uint8Array(blockSize));
+	let blockMixCb = () => {};
+	if (onProgress) {
+		const totalBlockMix = 2 * N * p;
+		const callbackPer = Math.max(Math.floor(totalBlockMix / 1e4), 1);
+		let blockMixCnt = 0;
+		blockMixCb = () => {
+			blockMixCnt++;
+			if (onProgress && (!(blockMixCnt % callbackPer) || blockMixCnt === totalBlockMix)) onProgress(blockMixCnt / totalBlockMix);
+		};
+	}
+	return {
+		N,
+		r,
+		p,
+		dkLen,
+		blockSize32,
+		V,
+		B32,
+		B,
+		tmp,
+		blockMixCb,
+		asyncTick
+	};
+}
+function scryptOutput(password, dkLen, B, V, tmp) {
+	const res = pbkdf2(sha256, password, B, {
+		c: 1,
+		dkLen
+	});
+	clean(B, V, tmp);
+	return res;
+}
+/**
+* Scrypt KDF from RFC 7914. Async version. See {@link ScryptOpts}.
+* @example
+* await scryptAsync('password', 'salt', { N: 2**18, r: 8, p: 1, dkLen: 32 });
+*/
+async function scryptAsync(password, salt, opts) {
+	const { N, r, p, dkLen, blockSize32, V, B32, B, tmp, blockMixCb, asyncTick } = scryptInit(password, salt, opts);
+	swap32IfBE(B32);
+	for (let pi = 0; pi < p; pi++) {
+		const Pi = blockSize32 * pi;
+		for (let i = 0; i < blockSize32; i++) V[i] = B32[Pi + i];
+		let pos = 0;
+		await asyncLoop(N - 1, asyncTick, () => {
+			BlockMix(V, pos, V, pos += blockSize32, r);
+			blockMixCb();
+		});
+		BlockMix(V, (N - 1) * blockSize32, B32, Pi, r);
+		blockMixCb();
+		await asyncLoop(N, asyncTick, () => {
+			const j = (B32[Pi + blockSize32 - 16] & N - 1) >>> 0;
+			for (let k = 0; k < blockSize32; k++) tmp[k] = B32[Pi + k] ^ V[j * blockSize32 + k];
+			BlockMix(tmp, 0, B32, Pi, r);
+			blockMixCb();
+		});
+	}
+	swap32IfBE(B32);
+	return scryptOutput(password, dkLen, B, V, tmp);
+}
+//#endregion
+export { scryptAsync as t };
