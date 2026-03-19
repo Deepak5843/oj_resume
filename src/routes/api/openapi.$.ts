@@ -40,14 +40,14 @@ async function handler({ request }: { request: Request }) {
 	if (request.method === "GET" && request.url.endsWith("/spec.json")) {
 		const spec = await openAPIGenerator.generate(router, {
 			info: {
-				title: "Reactive Resume",
+				title: "1Digit Resume",
 				version: __APP_VERSION__,
-				description: "Reactive Resume API",
-				license: { name: "MIT", url: "https://github.com/amruthpillai/reactive-resume/blob/main/LICENSE" },
-				contact: { name: "Amruth Pillai", email: "hello@amruthpillai.com", url: "https://amruthpillai.com" },
+				description: "1Digit Resume API",
+				license: { name: "MIT" },
+				contact: { name: "1Digit Technology", email: "contact@1digit.tech", url: "https://1digit.tech" },
 			},
 			servers: [{ url: `${env.APP_URL}/api/openapi` }],
-			externalDocs: { url: "https://docs.rxresu.me", description: "Reactive Resume Documentation" },
+			externalDocs: { url: "/docs", description: "1Digit Resume Documentation" },
 			commonSchemas: {
 				ResumeData: { schema: resumeDataSchema },
 			},

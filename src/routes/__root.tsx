@@ -8,7 +8,6 @@ import type { QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, HeadContent, Scripts } from "@tanstack/react-router";
 import { MotionConfig } from "motion/react";
 import { CommandPalette } from "@/components/command-palette";
-import { BreakpointIndicator } from "@/components/layout/breakpoint-indicator";
 import { ThemeProvider } from "@/components/theme/provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -32,18 +31,18 @@ type RouterContext = {
 	flags: FeatureFlags;
 };
 
-const appName = "Reactive Resume";
-const tagline = "A free and open-source resume builder";
+const appName = "1Digit";
+const tagline = "Private & Professional Resume Builder";
 const title = `${appName} — ${tagline}`;
 const description =
-	"Reactive Resume is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume.";
+	"1Digit is a completely private and open-source resume builder that helps you create professional resumes without compromising your data privacy.";
 
 await loadLocale(await getLocale());
 
 export const Route = createRootRouteWithContext<RouterContext>()({
 	shellComponent: RootDocument,
 	head: () => {
-		const appUrl = process.env.APP_URL ?? "https://rxresu.me/";
+		const appUrl = process.env.APP_URL ?? "https://1digit.tech/";
 
 		return {
 			links: [
@@ -125,8 +124,6 @@ function RootDocument({ children }: Props) {
 											<DialogManager />
 											<CommandPalette />
 											<Toaster richColors position="bottom-right" />
-
-											{import.meta.env.DEV && <BreakpointIndicator />}
 										</PromptDialogProvider>
 									</ConfirmDialogProvider>
 								</TooltipProvider>

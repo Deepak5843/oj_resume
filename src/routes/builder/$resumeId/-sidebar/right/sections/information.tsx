@@ -14,12 +14,12 @@ export function InformationSectionBuilder() {
 				<div className="space-y-2 text-xs leading-normal">
 					<Trans>
 						<p>
-							Thank you for using Reactive Resume! This app is a labor of love, created mostly in my spare time, with
-							wonderful support from open-source contributors around the world.
+							Thank you for using 1Digit Resume! This app is created by 1Digit Technology to provide
+							a private and professional resume building experience.
 						</p>
 						<p>
-							If Reactive Resume has been helpful to you, and you'd like to help keep it free and open for everyone,
-							please consider making a donation. Every little bit is appreciated!
+							1Digit Resume is committed to maintaining your data privacy and providing the best resume
+							building experience possible.
 						</p>
 					</Trans>
 				</div>
@@ -30,10 +30,10 @@ export function InformationSectionBuilder() {
 					nativeButton={false}
 					className="mt-2 whitespace-normal px-4! text-xs"
 					render={
-						<a href="http://opencollective.com/reactive-resume" target="_blank" rel="noopener">
+						<a href="https://1digittechnology.com" target="_blank" rel="noopener">
 							<HandHeartIcon />
 							<span className="truncate">
-								<Trans>Donate to Reactive Resume</Trans>
+								<Trans>Visit 1Digit Technology</Trans>
 							</span>
 						</a>
 					}
@@ -47,7 +47,7 @@ export function InformationSectionBuilder() {
 					className="text-xs"
 					nativeButton={false}
 					render={
-						<a href="https://docs.rxresu.me" target="_blank" rel="noopener">
+						<a href="/docs" target="_blank" rel="noopener">
 							<Trans>Documentation</Trans>
 						</a>
 					}
@@ -59,8 +59,8 @@ export function InformationSectionBuilder() {
 					className="text-xs"
 					nativeButton={false}
 					render={
-						<a href="https://github.com/amruthpillai/reactive-resume" target="_blank" rel="noopener">
-							<Trans>Source Code</Trans>
+						<a href="https://1digittechnology.com" target="_blank" rel="noopener">
+							<Trans>About 1Digit</Trans>
 						</a>
 					}
 				/>
@@ -71,8 +71,8 @@ export function InformationSectionBuilder() {
 					className="text-xs"
 					nativeButton={false}
 					render={
-						<a href="https://github.com/amruthpillai/reactive-resume/issues" target="_blank" rel="noopener">
-							<Trans>Report a Bug</Trans>
+						<a href="/contact" target="_blank" rel="noopener">
+							<Trans>Contact Support</Trans>
 						</a>
 					}
 				/>
@@ -83,8 +83,8 @@ export function InformationSectionBuilder() {
 					className="text-xs"
 					nativeButton={false}
 					render={
-						<a href="https://crowdin.com/project/reactive-resume" target="_blank" rel="noopener">
-							<Trans>Translations</Trans>
+						<a href="/features" target="_blank" rel="noopener">
+							<Trans>Features</Trans>
 						</a>
 					}
 				/>
@@ -95,8 +95,8 @@ export function InformationSectionBuilder() {
 					className="text-xs"
 					nativeButton={false}
 					render={
-						<a href="https://opencollective.com/reactive-resume" target="_blank" rel="noopener">
-							<Trans>Sponsors</Trans>
+						<a href="https://1digittechnology.com" target="_blank" rel="noopener">
+							<Trans>Company</Trans>
 						</a>
 					}
 				/>

@@ -17,25 +17,25 @@ export function Copyright({ className, ...props }: Props) {
 			</p>
 
 			<p>
-				<Trans>By the community, for the community.</Trans>
+				<Trans>Private & Professional Resume Builder.</Trans>
 			</p>
 
 			<p>
 				<Trans>
-					A passion project by{" "}
+					Built by{" "}
 					<a
 						target="_blank"
 						rel="noopener"
-						href="https://amruthpillai.com"
+						href="https://1digit.tech"
 						className="font-medium underline underline-offset-2"
 					>
-						Amruth Pillai
+						1Digit Technology
 					</a>
 					.
 				</Trans>
 			</p>
 
-			<p className="mt-4">Reactive Resume v{__APP_VERSION__}</p>
+			<p className="mt-4">1Digit Resume v{__APP_VERSION__}</p>
 		</div>
 	);
 }

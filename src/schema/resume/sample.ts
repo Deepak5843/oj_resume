@@ -26,12 +26,6 @@ export const sampleResumeData: ResumeData = {
 		customFields: [
 			{
 				id: "019bef5a-0477-77e0-968b-5d0e2ecb34e3",
-				icon: "github-logo",
-				text: "github.com/dkowalski-dev",
-				link: "https://github.com/dkowalski-dev",
-			},
-			{
-				id: "019bef5a-93e4-7746-ad39-3a132360f823",
 				icon: "game-controller",
 				text: "itch.io/dkowalski",
 				link: "https://itch.io/dkowalski",
@@ -54,12 +48,12 @@ export const sampleResumeData: ResumeData = {
 				{
 					id: "019bef5a-93e4-7746-ad39-3d42ddc9b4d8",
 					hidden: false,
-					icon: "github-logo",
-					network: "GitHub",
-					username: "dkowalski-dev",
+					icon: "game-controller",
+					network: "Portfolio",
+					username: "dkowalski",
 					website: {
-						url: "https://github.com/dkowalski-dev",
-						label: "github.com/dkowalski-dev",
+						url: "https://davidkowalski.games",
+						label: "davidkowalski.games",
 					},
 				},
 				{
@@ -144,11 +138,11 @@ export const sampleResumeData: ResumeData = {
 					name: "Open Source: Unity Dialogue Framework",
 					period: "2021 - 2023",
 					website: {
-						url: "https://github.com/dkowalski-dev/unity-dialogue",
-						label: "View on GitHub",
+						url: "https://davidkowalski.games/projects/unity-dialogue",
+						label: "View Project",
 					},
 					description:
-						"<p>Created and maintain an open-source dialogue system for Unity with visual node-based editor, localization support, and voice acting integration. Project has 800+ GitHub stars and is actively used by indie developers worldwide. Includes comprehensive documentation and example projects.</p>",
+						"<p>Created and maintain an open-source dialogue system for Unity with visual node-based editor, localization support, and voice acting integration. Project has 800+ downloads and is actively used by indie developers worldwide. Includes comprehensive documentation and example projects.</p>",
 				},
 				{
 					id: "019bef5a-93e4-7746-ad39-549106273c73",

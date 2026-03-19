@@ -1,18 +1,14 @@
 {
-	"name": "reactive-resume",
-	"description": "Reactive Resume is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume.",
-	"version": "5.0.12",
+	"name": "1digit-resume",
+	"description": "1Digit Resume is a private and professional resume builder that simplifies the process of creating, updating, and sharing your resume with complete data privacy.",
+	"version": "1.0.0",
 	"license": "MIT",
 	"type": "module",
 	"packageManager": "pnpm@10.32.1+sha512.a706938f0e89ac1456b6563eab4edf1d1faf3368d1191fc5c59790e96dc918e4456ab2e67d613de1043d2e8c81f87303e6b40d4ffeca9df15ef1ad567348f2be",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/amruthpillai/reactive-resume.git"
-	},
 	"author": {
-		"name": "Amruth Pillai",
-		"email": "hello@amruthpillai.com",
-		"url": "https://amruthpillai.com"
+		"name": "1Digit Technology",
+		"email": "contact@1digit.tech",
+		"url": "https://1digit.tech"
 	},
 	"scripts": {
 		"build": "vite build",
@@ -40,6 +36,7 @@
 		"@better-auth/api-key": "^1.5.5",
 		"@better-auth/drizzle-adapter": "^1.5.5",
 		"@better-auth/infra": "^0.1.12",
+		"@better-auth/sso": "^1.5.5",
 		"@dnd-kit/core": "^6.3.1",
 		"@dnd-kit/sortable": "^10.0.0",
 		"@dnd-kit/utilities": "^3.2.2",
